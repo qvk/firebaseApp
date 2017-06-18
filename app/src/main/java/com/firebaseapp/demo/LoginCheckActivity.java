@@ -25,7 +25,7 @@ public class LoginCheckActivity extends AppCompatActivity {
     private static final int RC_SIGNIN = 100;
 
     private TextView textView;
-    private Button signOutButton;
+    private Button retryButton;
 
     private FirebaseAuth mAuth;
 
@@ -34,8 +34,8 @@ public class LoginCheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_check);
         textView = (TextView)findViewById(R.id.txt_view);
-        signOutButton = (Button)findViewById(R.id.sign_out);
-        signOutButton.setVisibility(View.INVISIBLE);
+        retryButton = (Button)findViewById(R.id.retry_btn);
+        retryButton.setVisibility(View.INVISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -58,6 +58,14 @@ public class LoginCheckActivity extends AppCompatActivity {
                 finish();
                 return;
             } else {
+                retryButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startSignIn();
+                        v.setVisibility(View.INVISIBLE);
+                    }
+                });
+                retryButton.setVisibility(View.VISIBLE);
                 if (response == null) {
                     // User pressed back button
                     Toast.makeText(this, "sign in cancelled", Toast.LENGTH_SHORT).show();
@@ -90,14 +98,6 @@ public class LoginCheckActivity extends AppCompatActivity {
             usrText += "\nemail: " + user.getEmail();
             usrText += "\npic: " + user.getPhotoUrl().toString();
             textView.setText(usrText);
-            signOutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v.setVisibility(View.INVISIBLE);
-                    signOut();
-                }
-            });
-            signOutButton.setVisibility(View.VISIBLE);
         }
     }
 
