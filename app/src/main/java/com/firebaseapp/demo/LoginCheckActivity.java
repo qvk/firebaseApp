@@ -24,7 +24,7 @@ public class LoginCheckActivity extends AppCompatActivity {
     private static final String TAG = "LoginCheckActivity";
     private static final int RC_SIGNIN = 100;
 
-    private Button retryButton;
+    private Button signInButton;
 
     private FirebaseAuth mAuth;
 
@@ -32,8 +32,7 @@ public class LoginCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_check);
-        retryButton = (Button)findViewById(R.id.retry_btn);
-        retryButton.setVisibility(View.INVISIBLE);
+        signInButton = (Button)findViewById(R.id.login_btn);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -56,14 +55,15 @@ public class LoginCheckActivity extends AppCompatActivity {
                 finish();
                 return;
             } else {
-                retryButton.setOnClickListener(new View.OnClickListener() {
+                signInButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startSignIn();
-                        v.setVisibility(View.INVISIBLE);
+                        ((Button)v).setText("SIGNING IN...");
+                        v.setEnabled(false);
                     }
                 });
-                retryButton.setVisibility(View.VISIBLE);
+                signInButton.setEnabled(true);
                 if (response == null) {
                     // User pressed back button
                     Toast.makeText(this, "sign in cancelled", Toast.LENGTH_SHORT).show();
@@ -88,7 +88,14 @@ public class LoginCheckActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "user null", Toast.LENGTH_SHORT).show();
-            startSignIn();
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startSignIn();
+                    ((Button)v).setText("SIGNING IN...");
+                    v.setEnabled(false);
+                }
+            });
         } else {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -101,15 +108,5 @@ public class LoginCheckActivity extends AppCompatActivity {
                         Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                 .build();
         startActivityForResult(authIntent, RC_SIGNIN);
-    }
-
-    private void signOut() {
-        AuthUI.getInstance().signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(LoginCheckActivity.this, "signed out", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }
