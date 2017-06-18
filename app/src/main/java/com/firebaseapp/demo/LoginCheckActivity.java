@@ -24,7 +24,6 @@ public class LoginCheckActivity extends AppCompatActivity {
     private static final String TAG = "LoginCheckActivity";
     private static final int RC_SIGNIN = 100;
 
-    private TextView textView;
     private Button retryButton;
 
     private FirebaseAuth mAuth;
@@ -33,7 +32,6 @@ public class LoginCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_check);
-        textView = (TextView)findViewById(R.id.txt_view);
         retryButton = (Button)findViewById(R.id.retry_btn);
         retryButton.setVisibility(View.INVISIBLE);
 
@@ -89,15 +87,11 @@ public class LoginCheckActivity extends AppCompatActivity {
     private void checkUserLogin() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
-            textView.setText("null");
             Toast.makeText(this, "user null", Toast.LENGTH_SHORT).show();
             startSignIn();
         } else {
-            String usrText = "";
-            usrText += "name: " + user.getDisplayName();
-            usrText += "\nemail: " + user.getEmail();
-            usrText += "\npic: " + user.getPhotoUrl().toString();
-            textView.setText(usrText);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 
