@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -79,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // set user name
+        TextView nameView = (TextView)navigationView.getHeaderView(0).findViewById(R.id.display_name);
+        String name = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : null;
+        if (name != null) nameView.setText(name);
 
         // set up action bar drawer toggle
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
