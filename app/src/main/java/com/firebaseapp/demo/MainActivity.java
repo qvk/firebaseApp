@@ -8,7 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         signOut();
-
+                        break;
+                    default:
+                        Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        break;
                 }
                 return true;
             }
@@ -101,6 +106,17 @@ public class MainActivity extends AppCompatActivity {
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        updateNavMovies(new String[]{"M1", "M2"});
+    }
+
+    private void updateNavMovies(String[] movies) {
+        Menu menu = navigationView.getMenu();
+        menu.removeGroup(R.id.group_movies);
+        SubMenu subMenu = menu.addSubMenu(R.id.movies, Menu.NONE, Menu.NONE, "Movies");
+        for (String movie : movies) {
+            subMenu.add(R.id.movies, Menu.NONE, Menu.NONE, movie).setIcon(R.drawable.ic_movie_black_24dp);
+        }
     }
 
     private void signOut() {

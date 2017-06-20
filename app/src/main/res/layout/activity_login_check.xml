@@ -14,8 +14,10 @@
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/login_btn"
-        android:textSize="18sp"
+        android:padding="16dp"
+        android:textSize="20sp"
         android:text="SIGN IN"
+        android:textColor="@color/colorAccent"
         android:layout_marginBottom="100dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"

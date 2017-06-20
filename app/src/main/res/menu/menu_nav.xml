@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/group_home"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/home"
             android:title="Home"
             android:icon="@drawable/ic_movie_black_24dp"/>
-        <item
-            android:id="@+id/movies"
-            android:title="Movies"
+    </group>
+    <group android:id="@+id/group_movies"
+        android:title="Movies">
+        <item android:id="@+id/movie1"
+            android:title="Movie1"
             android:icon="@drawable/ic_movie_black_24dp"/>
+    </group>
+    <group android:id="@+id/group_settings"
+        android:orderInCategory="99"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/logout"
             android:title="Logout"
