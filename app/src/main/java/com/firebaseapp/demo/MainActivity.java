@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
                         break;
-                    case R.id.movies:
+                    case R.id.movie1:
                         Toast.makeText(getApplicationContext(),"Movies",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.logout:
@@ -113,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateNavMovies(String[] movies) {
         Menu menu = navigationView.getMenu();
         menu.removeGroup(R.id.group_movies);
-        SubMenu subMenu = menu.addSubMenu(R.id.movies, Menu.NONE, Menu.NONE, "Movies");
+        SubMenu subMenu = menu.addSubMenu(R.id.group_movies, Menu.NONE, Menu.NONE, "Movies");
         for (String movie : movies) {
-            subMenu.add(R.id.movies, Menu.NONE, Menu.NONE, movie).setIcon(R.drawable.ic_movie_black_24dp);
+            subMenu.add(R.id.group_movies, Menu.NONE, Menu.NONE, movie).setIcon(R.drawable.ic_movie_black_24dp);
         }
     }
 
