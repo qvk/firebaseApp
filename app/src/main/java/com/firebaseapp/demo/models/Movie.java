@@ -16,6 +16,10 @@ public class Movie {
 
     }
 
+    public Movie(String name) {
+        this.name = name;
+    }
+
     public Movie(String name, List<Department> departments) {
         this.name = name;
         int listLength = departments == null ? 0 : departments.size();
