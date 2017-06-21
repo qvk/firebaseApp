@@ -20,10 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.firebaseapp.demo.models.Movie;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +152,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeNewMovie(String newMovieName) {
-        Toast.makeText(this, "new movie:" + newMovieName, Toast.LENGTH_SHORT).show();
+        Movie newMovie = new Movie(newMovieName);
+        String key = mDatabase.child("movies").push().getKey();
+        mDatabase.child("movies").child(key).setValue(newMovie);
+        Toast.makeText(this, "new movie added", Toast.LENGTH_SHORT).show();
     }
 
     private void signOut() {
