@@ -1,17 +1,21 @@
 package com.firebaseapp.demo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                         signOut();
                         break;
                     default:
+                        if (menuItem.getTitle().toString().equals("Add new movie")) {
+                            showAddMovieDialog();
+                        }
                         Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -117,6 +124,31 @@ public class MainActivity extends AppCompatActivity {
         for (String movie : movies) {
             subMenu.add(R.id.group_movies, Menu.NONE, Menu.NONE, movie).setIcon(R.drawable.ic_movie_black_24dp);
         }
+
+        // add AddMovie item
+        subMenu.add(R.id.group_movies, Menu.NONE, Menu.NONE, "Add new movie").setIcon(R.drawable.ic_add_black_24dp);
+    }
+
+    private void showAddMovieDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final View dialogView = inflater.inflate(R.layout.new_movie_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Add new movie")
+                .setView(dialogView);
+
+        final EditText movieField = (EditText)dialogView.findViewById(R.id.new_movie_name);
+
+        builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String movieName = movieField.getText().toString();
+                makeNewMovie(movieName);
+            }
+        }).show();
+    }
+
+    private void makeNewMovie(String newMovieName) {
+        Toast.makeText(this, "new movie:" + newMovieName, Toast.LENGTH_SHORT).show();
     }
 
     private void signOut() {
